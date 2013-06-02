@@ -1,0 +1,21 @@
+<%= form_for(@join_meet) do |f| %>
+  <% if @join_meet.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@join_meet.errors.count, "error") %> prohibited this join_meet from being saved:</h2>
+
+      <ul>
+      <% @join_meet.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :meet_id %><br />
+    <%= f.number_field :meet_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,43 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Title:</b>
+  <%= @meet.title %>
+</p>
+
+<p>
+  <b>Content:</b>
+  <%= @meet.content %>
+</p>
+
+<p>
+  <b>Starter:</b>
+  <%= @meet.user.name %>
+</p>
+
+<p>
+  <b>City:</b>
+  <%= @meet.city.full_name %>
+</p>
+
+<p>
+  <b>Date:</b>
+  <%= @meet.date %>
+</p>
+
+<p>
+  <b>Count:</b>
+  <%= @meet.user_count %>
+</p>
+
+<%if signed_in?%>
+  <% if current_user.join_meet.count(@meet.id) == 0%>
+    <td><%= link_to 'Join', {:controller => "join_meets",
+      :action => "create", :join_meet=>{:meet_id=>@meet.id}}, method: :post%></td>
+  <%else%>
+    <td><%= link_to 'Disjoin', {:controller => "join_meets",
+      :action => "destroy", :id=>getJoinMeetID(@meet.id, current_user.id)}, method: :delete, data: { confirm: 'Are you sure?' }%></td>
+  <% end%>
+<%end%>
+<%= link_to 'Edit', edit_meet_path(@meet) %> |
+<%= link_to 'Back', meets_path %>

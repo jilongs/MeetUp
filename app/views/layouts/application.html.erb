@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MeetUp</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <nav>
+    <%= link_to "Groups", groups_url %> |
+    <%= link_to "Meets", meets_url %>
+  </nav>
+
+  <% if signed_in? %>
+    <p>
+      Welcome back, <%= current_user.email %>.
+      <%= link_to "Sign Out", session_url, method: 'delete' %>
+    </p>
+  <% else %>
+    <p><%= link_to "Sign In", new_session_url %> or <%= link_to "Sign Up", new_user_url %></p>
+  <% end %>
+<%= yield %>
+
+</body>
+</html>

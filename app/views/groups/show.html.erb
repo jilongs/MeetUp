@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Title:</b>
+  <%= @group.title %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @group.description %>
+</p>
+
+<p>
+  <b>Starter:</b>
+  <%= @group.user.name %>
+</p>
+
+<p>
+  <b>Count:</b>
+  <%= @group.user_count %>
+</p>
+
+<%if signed_in?%>
+  <% if current_user.join_group.count(@group.id) == 0%>
+    <td><%= link_to 'Join', {:controller => "join_groups",
+      :action => "create", :join_group=>{:group_id=>@group.id}}, method: :post%></td>
+  <%else%>
+    <td><%= link_to 'Disjoin', {:controller => "join_groups",
+      :action => "destroy", :id=>getJoinGroupID(@group.id, current_user.id)}, method: :delete, data: { confirm: 'Are you sure?' }%></td>
+  <% end%>
+<%end%>
+<%= link_to 'Edit', edit_group_path(@group) %> |
+<%= link_to 'Back', groups_path %>

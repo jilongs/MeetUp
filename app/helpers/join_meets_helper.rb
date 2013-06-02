@@ -1,0 +1,2 @@
+module JoinMeetsHelper
+end

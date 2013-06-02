@@ -1,0 +1,45 @@
+<h1>Listing meets</h1>
+<%= will_paginate @meets %>
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Content</th>
+    <th>Starter</th>
+    <th>City</th>
+    <th>Date</th>
+    <th>Count</th>
+    <%if signed_in?%>
+      <th></th>
+    <%end%>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @meets.each do |meet| %>
+  <tr>
+    <td><%= meet.title %></td>
+    <td><%= meet.content %></td>
+    <td><%= meet.user.name %></td>
+    <td><%= meet.city.full_name %></td>
+    <td><%= meet.date %></td>
+    <td><%= meet.user_count %></td>
+    <%if signed_in?%>
+      <% if current_user.join_meet.count(meet.id) == 0%>
+        <td><%= link_to 'Join', {:controller => "join_meets",
+          :action => "create", :join_meet=>{:meet_id=>meet.id}}, method: :post%></td>
+      <%else%>
+        <td><%= link_to 'Disjoin', {:controller => "join_meets",
+          :action => "destroy", :id=>getJoinMeetID(meet.id, current_user.id)}, method: :delete, data: { confirm: 'Are you sure?' }%></td>
+      <% end%>
+    <%end%>
+    <td><%= link_to 'Show', meet %></td>
+    <td><%= link_to 'Edit', edit_meet_path(meet) %></td>
+    <td><%= link_to 'Destroy', meet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Meet', new_meet_path %>

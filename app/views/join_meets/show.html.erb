@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Meet:</b>
+  <%= @join_meet.meet_id %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @join_meet.user_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_join_meet_path(@join_meet) %> |
+<%= link_to 'Back', join_meets_path %>

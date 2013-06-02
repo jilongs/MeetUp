@@ -1,0 +1,41 @@
+<h1>Listing groups</h1>
+    <%= will_paginate @groups %>
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Starter</th>
+    <th>Count</th>
+    <%if signed_in?%>
+      <th></th>
+    <%end%>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @groups.each do |group| %>
+  <tr>
+    <td><%= group.title %></td>
+    <td><%= group.description %></td>
+    <td><%= group.user.name %></td>
+    <td><%= group.user_count %></td>
+    <%if signed_in?%>
+      <% if current_user.join_group.count(group.id) == 0%>
+        <td><%= link_to 'Join', {:controller => "join_groups",
+          :action => "create", :join_group=>{:group_id=>group.id}}, method: :post%></td>
+      <%else%>
+        <td><%= link_to 'Disjoin', {:controller => "join_groups",
+          :action => "destroy", :id=>getJoinGroupID(group.id, current_user.id)}, method: :delete, data: { confirm: 'Are you sure?' }%></td>
+      <% end%>
+    <%end%>
+    <td><%= link_to 'Show', group %></td>
+    <td><%= link_to 'Edit', edit_group_path(group) %></td>
+    <td><%= link_to 'Destroy', group, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Group', new_group_path %>
