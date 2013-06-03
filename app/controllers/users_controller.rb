@@ -14,7 +14,7 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     @user = User.find(params[:id])
-
+    UserMailer.welcome_email(@user).deliver
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @user }
@@ -41,9 +41,11 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(params[:user])
+    @user.state = false
 
     respond_to do |format|
       if @user.save
+        UserMailer.welcome_email(@user).deliver
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render json: @user, status: :created, location: @user }
       else
