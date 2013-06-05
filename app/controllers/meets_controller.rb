@@ -87,6 +87,7 @@ class MeetsController < ApplicationController
     @meet.destroy
 
     respond_to do |format|
+
       format.html { redirect_to meets_url }
       format.json { head :no_content }
     end

@@ -14,6 +14,8 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     @user = User.find(params[:id])
+    @meets = Meet.paginate(:page => params[:page], :per_page => 5).joins(:join_meet).where("join_meets.user_id"=>current_user.id)
+    @groups = Group.paginate(:page => params[:page], :per_page => 5).joins(:join_group).where("join_groups.user_id"=>current_user.id)
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @user }

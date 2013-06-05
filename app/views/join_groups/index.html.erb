@@ -11,8 +11,8 @@
 
 <% @join_groups.each do |join_group| %>
   <tr>
-    <td><%= join_group.group_id %></td>
-    <td><%= join_group.user_id %></td>
+    <td><%= join_group.group.title %></td>
+    <td><%= join_group.user.name %></td>
     <td><%= link_to 'Show', join_group %></td>
     <td><%= link_to 'Edit', edit_join_group_path(join_group) %></td>
     <td><%= link_to 'Destroy', join_group, method: :delete, data: { confirm: 'Are you sure?' } %></td>

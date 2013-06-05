@@ -14,7 +14,7 @@
 
   <% if signed_in? %>
     <p>
-      Welcome back, <%= current_user.name %>.
+      Welcome back, <%= link_to current_user.name, current_user %>.
       <%= link_to "Sign Out", session_url, method: 'delete' %>
     </p>
   <% else %>

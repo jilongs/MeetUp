@@ -11,8 +11,8 @@
 
 <% @join_meets.each do |join_meet| %>
   <tr>
-    <td><%= join_meet.meet_id %></td>
-    <td><%= join_meet.user_id %></td>
+    <td><%= join_meet.meet.title %></td>
+    <td><%= join_meet.user.name %></td>
     <td><%= link_to 'Show', join_meet %></td>
     <td><%= link_to 'Edit', edit_join_meet_path(join_meet) %></td>
     <td><%= link_to 'Destroy', join_meet, method: :delete, data: { confirm: 'Are you sure?' } %></td>

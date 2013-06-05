@@ -6,11 +6,6 @@
 </p>
 
 <p>
-  <b>Password digest:</b>
-  <%= @user.password_digest %>
-</p>
-
-<p>
   <b>Email:</b>
   <%= @user.email %>
 </p>
@@ -23,3 +18,97 @@
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>
+<h1 id="meet">The meets you have joined.</h1>
+<%= will_paginate @meets %>
+<table id="meet_table">
+  <tr>
+    <th>Title</th>
+    <th>Content</th>
+    <th>Starter</th>
+    <th>City</th>
+    <th>Date</th>
+    <th>Count</th>
+    <%if signed_in?%>
+      <th></th>
+    <%end%>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @meets.each do |meet| %>
+  <tr id="meet_<%=meet.id%>">
+    <td><%= meet.title %></td>
+    <td><%= meet.content %></td>
+    <td><%= meet.user.name %></td>
+    <td><%= meet.city.full_name %></td>
+    <td><%= meet.date %></td>
+    <td><%= meet.user_count %></td>
+    <%if signed_in?%>
+      <% if current_user.join_meet.where(:meet_id => meet.id).count == 0%>
+        <td><%= link_to 'Join', {:controller => "join_meets",
+          :action => "create", :join_meet=>{:meet_id=>meet.id}}, method: :post%></td>
+      <%else%>
+        <td><%= link_to 'Disjoin', {:controller => "join_meets",
+          :action => "destroy", :id=>getJoinMeetID(meet.id, current_user.id)}, method: :delete, data: { confirm: 'Are you sure?' }, remote: true%></td>
+      <% end%>
+    <%end%>
+    <td><%= link_to 'Show', meet %></td>
+    <%if meet.user == current_user%>
+      <td><%= link_to 'Edit', edit_meet_path(meet) %></td>
+      <td><%= link_to 'Destroy', meet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <%end%>
+  </tr>
+<% end %>
+</table>
+
+<hr>
+<h1 id="group">The groups you have joined.</h1>
+<%= will_paginate @groups %>
+<table id="group_table">
+  <tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Starter</th>
+    <th>Count</th>
+    <%if signed_in?%>
+      <th></th>
+    <%end%>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @groups.each do |group| %>
+  <tr id="group_<%=group.id%>">
+    <td><%= group.title %></td>
+    <td><%= group.description %></td>
+    <td><%= group.user.name %></td>
+    <td><%= group.user_count %></td>
+    <%if signed_in?%>
+      <% if current_user.join_group.where(:group_id => group.id).count == 0%>
+        <td><%= link_to 'Join', {:controller => "join_groups",
+          :action => "create", :join_group=>{:group_id=>group.id}}, method: :post%></td>
+      <%else%>
+        <td><%= link_to 'Disjoin', {:controller => "join_groups",
+          :action => "destroy", :id=>getJoinGroupID(group.id, current_user.id)}, method: 'delete', remote: true, data: { confirm: 'Are you sure?' }%></td>
+      <% end%>
+    <%end%>
+    <td><%= link_to 'Show', group %></td>
+    <td><%= link_to 'Edit', edit_group_path(group) %></td>
+    <td><%= link_to 'Destroy', group, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+
+
+<script type="text/javascript">
+$("#meet").on("click", function(){
+  $("#meet_table").slideToggle();
+});
+$("#group").on("click", function(){
+  $("#group_table").slideToggle();
+});
+var user_page = true;
+</script>

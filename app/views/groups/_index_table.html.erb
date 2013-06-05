@@ -1,4 +1,3 @@
-<h1>Listing groups</h1>
 <%= will_paginate @groups %>
 <table id="group_table">
   <tr>
@@ -37,11 +36,3 @@
 </table>
 
 
-<script type="text/javascript">
-$("h1").on("click", function(){
-  $("#group_table").slideToggle();
-});
-</script>
-<br />
-
-<%= link_to 'New Group', new_group_path %>
